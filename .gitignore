@@ -1,0 +1,14 @@
+# API Credentials
+.env
+
+# Local Databases/States
+portfolio.json
+trade_log.json
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
