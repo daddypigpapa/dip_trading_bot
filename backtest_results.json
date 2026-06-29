@@ -1,0 +1,664 @@
+{
+    "metadata": {
+        "backtest_date": "2026-06-29 17:29:50",
+        "is_live_data": false,
+        "initial_capital": 50000000.0,
+        "final_equity": 49927508.5,
+        "total_return_pct": -0.14,
+        "cagr_pct": -0.61,
+        "max_drawdown_pct": 1.4,
+        "total_trades_count": 57,
+        "completed_trades_count": 26,
+        "win_rate_pct": 50.0
+    },
+    "completed_trades": [
+        {
+            "symbol": "003550",
+            "name": "LG",
+            "buy_date": "20260504",
+            "sell_date": "20260510",
+            "buy_price": 183638.7,
+            "sell_price": 188702.3,
+            "profit_loss": 187447.8,
+            "profit_pct": 2.55,
+            "reason": "TAKE_PROFIT_CALL_WALL_REACHED"
+        },
+        {
+            "symbol": "034020",
+            "name": "두산에너빌리티",
+            "buy_date": "20260504",
+            "sell_date": "20260511",
+            "buy_price": 72119.1,
+            "sell_price": 73301.3,
+            "profit_loss": 106666.5,
+            "profit_pct": 1.44,
+            "reason": "TAKE_PROFIT_CALL_WALL_REACHED"
+        },
+        {
+            "symbol": "009150",
+            "name": "삼성전기",
+            "buy_date": "20260504",
+            "sell_date": "20260513",
+            "buy_price": 71330.0,
+            "sell_price": 73527.4,
+            "profit_loss": 215286.2,
+            "profit_pct": 2.87,
+            "reason": "TAKE_PROFIT_CALL_WALL_REACHED"
+        },
+        {
+            "symbol": "015760",
+            "name": "한국전력",
+            "buy_date": "20260504",
+            "sell_date": "20260514",
+            "buy_price": 181981.1,
+            "sell_price": 182195.3,
+            "profit_loss": -6157.8,
+            "profit_pct": -0.08,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "010950",
+            "name": "S-Oil",
+            "buy_date": "20260504",
+            "sell_date": "20260514",
+            "buy_price": 71001.9,
+            "sell_price": 70837.9,
+            "profit_loss": -32096.0,
+            "profit_pct": -0.43,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "068270",
+            "name": "셀트리온",
+            "buy_date": "20260510",
+            "sell_date": "20260520",
+            "buy_price": 118074.0,
+            "sell_price": 119154.2,
+            "profit_loss": 53039.2,
+            "profit_pct": 0.71,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "010140",
+            "name": "삼성중공업",
+            "buy_date": "20260511",
+            "sell_date": "20260521",
+            "buy_price": 70269.8,
+            "sell_price": 72227.4,
+            "profit_loss": 192193.4,
+            "profit_pct": 2.58,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "009540",
+            "name": "HD한국조선해양",
+            "buy_date": "20260514",
+            "sell_date": "20260521",
+            "buy_price": 72110.1,
+            "sell_price": 73437.0,
+            "profit_loss": 122722.7,
+            "profit_pct": 1.64,
+            "reason": "TAKE_PROFIT_CALL_WALL_REACHED"
+        },
+        {
+            "symbol": "015760",
+            "name": "한국전력",
+            "buy_date": "20260514",
+            "sell_date": "20260522",
+            "buy_price": 182195.3,
+            "sell_price": 178160.0,
+            "profit_loss": -180056.4,
+            "profit_pct": -2.41,
+            "reason": "STOP_LOSS_PUT_WALL_BREACHED"
+        },
+        {
+            "symbol": "017670",
+            "name": "SK텔레콤",
+            "buy_date": "20260513",
+            "sell_date": "20260523",
+            "buy_price": 71649.3,
+            "sell_price": 71448.0,
+            "profit_loss": -35796.4,
+            "profit_pct": -0.48,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "034730",
+            "name": "SK",
+            "buy_date": "20260520",
+            "sell_date": "20260530",
+            "buy_price": 115053.7,
+            "sell_price": 118607.0,
+            "profit_loss": 215545.6,
+            "profit_pct": 2.88,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "207940",
+            "name": "삼성바이오로직스",
+            "buy_date": "20260521",
+            "sell_date": "20260531",
+            "buy_price": 180317.9,
+            "sell_price": 181516.4,
+            "profit_loss": 34254.2,
+            "profit_pct": 0.46,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "068270",
+            "name": "셀트리온",
+            "buy_date": "20260521",
+            "sell_date": "20260531",
+            "buy_price": 118409.6,
+            "sell_price": 116395.3,
+            "profit_loss": -141566.7,
+            "profit_pct": -1.9,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "128940",
+            "name": "한미약품",
+            "buy_date": "20260523",
+            "sell_date": "20260531",
+            "buy_price": 70235.2,
+            "sell_price": 69148.1,
+            "profit_loss": -129892.0,
+            "profit_pct": -1.74,
+            "reason": "STOP_LOSS_PUT_WALL_BREACHED"
+        },
+        {
+            "symbol": "010950",
+            "name": "S-Oil",
+            "buy_date": "20260522",
+            "sell_date": "20260601",
+            "buy_price": 71333.9,
+            "sell_price": 71337.9,
+            "profit_loss": -14561.0,
+            "profit_pct": -0.19,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "017670",
+            "name": "SK텔레콤",
+            "buy_date": "20260530",
+            "sell_date": "20260609",
+            "buy_price": 70327.2,
+            "sell_price": 70590.1,
+            "profit_loss": 12902.3,
+            "profit_pct": 0.17,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "207940",
+            "name": "삼성바이오로직스",
+            "buy_date": "20260531",
+            "sell_date": "20260610",
+            "buy_price": 181516.4,
+            "sell_price": 180161.7,
+            "profit_loss": -70316.0,
+            "profit_pct": -0.94,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "068270",
+            "name": "셀트리온",
+            "buy_date": "20260531",
+            "sell_date": "20260610",
+            "buy_price": 116395.3,
+            "sell_price": 115016.6,
+            "profit_loss": -102958.9,
+            "profit_pct": -1.38,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "010060",
+            "name": "OCI홀딩스",
+            "buy_date": "20260531",
+            "sell_date": "20260610",
+            "buy_price": 180708.7,
+            "sell_price": 178816.7,
+            "profit_loss": -92235.0,
+            "profit_pct": -1.24,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "015760",
+            "name": "한국전력",
+            "buy_date": "20260601",
+            "sell_date": "20260611",
+            "buy_price": 182271.7,
+            "sell_price": 183854.1,
+            "profit_loss": 49802.4,
+            "profit_pct": 0.67,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "005490",
+            "name": "POSCO홀딩스",
+            "buy_date": "20260609",
+            "sell_date": "20260619",
+            "buy_price": 70108.3,
+            "sell_price": 71486.2,
+            "profit_loss": 130902.3,
+            "profit_pct": 1.76,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "207940",
+            "name": "삼성바이오로직스",
+            "buy_date": "20260610",
+            "sell_date": "20260620",
+            "buy_price": 180161.7,
+            "sell_price": 182299.3,
+            "profit_loss": 72693.1,
+            "profit_pct": 0.98,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "005380",
+            "name": "현대차",
+            "buy_date": "20260610",
+            "sell_date": "20260620",
+            "buy_price": 181238.6,
+            "sell_price": 181296.1,
+            "profit_loss": -12508.8,
+            "profit_pct": -0.17,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "009150",
+            "name": "삼성전기",
+            "buy_date": "20260610",
+            "sell_date": "20260620",
+            "buy_price": 71832.4,
+            "sell_price": 70136.0,
+            "profit_loss": -191013.9,
+            "profit_pct": -2.56,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "017670",
+            "name": "SK텔레콤",
+            "buy_date": "20260611",
+            "sell_date": "20260621",
+            "buy_price": 70926.9,
+            "sell_price": 72818.0,
+            "profit_loss": 183273.7,
+            "profit_pct": 2.46,
+            "reason": "TIME_STOP_10_DAYS"
+        },
+        {
+            "symbol": "005380",
+            "name": "현대차",
+            "buy_date": "20260620",
+            "sell_date": "20260628",
+            "buy_price": 181296.1,
+            "sell_price": 177966.7,
+            "profit_loss": -151098.7,
+            "profit_pct": -2.03,
+            "reason": "STOP_LOSS_PUT_WALL_BREACHED"
+        }
+    ],
+    "equity_curve": [
+        {
+            "date": "20260430",
+            "equity": 50000000.0,
+            "cash": 50000000.0,
+            "holdings_val": 0.0
+        },
+        {
+            "date": "20260501",
+            "equity": 50000000.0,
+            "cash": 50000000.0,
+            "holdings_val": 0.0
+        },
+        {
+            "date": "20260502",
+            "equity": 50000000.0,
+            "cash": 50000000.0,
+            "holdings_val": 0.0
+        },
+        {
+            "date": "20260503",
+            "equity": 50000000.0,
+            "cash": 50000000.0,
+            "holdings_val": 0.0
+        },
+        {
+            "date": "20260504",
+            "equity": 49944230.16515,
+            "cash": 12764340.26515,
+            "holdings_val": 37179889.9
+        },
+        {
+            "date": "20260505",
+            "equity": 50102509.365150005,
+            "cash": 12764340.26515,
+            "holdings_val": 37338169.1
+        },
+        {
+            "date": "20260506",
+            "equity": 50155208.765149996,
+            "cash": 12764340.26515,
+            "holdings_val": 37390868.5
+        },
+        {
+            "date": "20260507",
+            "equity": 50117513.06514999,
+            "cash": 12764340.26515,
+            "holdings_val": 37353172.8
+        },
+        {
+            "date": "20260508",
+            "equity": 50209049.16515,
+            "cash": 12764340.26515,
+            "holdings_val": 37444708.9
+        },
+        {
+            "date": "20260509",
+            "equity": 50242519.66515,
+            "cash": 12764340.26515,
+            "holdings_val": 37478179.4
+        },
+        {
+            "date": "20260510",
+            "equity": 50331050.88814999,
+            "cash": 12847516.088149998,
+            "holdings_val": 37483534.8
+        },
+        {
+            "date": "20260511",
+            "equity": 50297333.22215,
+            "cash": 12922678.22215,
+            "holdings_val": 37374655.0
+        },
+        {
+            "date": "20260512",
+            "equity": 50237255.42215,
+            "cash": 12922678.22215,
+            "holdings_val": 37314577.2
+        },
+        {
+            "date": "20260513",
+            "equity": 50324381.27735,
+            "cash": 13164909.977349997,
+            "holdings_val": 37159471.300000004
+        },
+        {
+            "date": "20260514",
+            "equity": 50473505.91719999,
+            "cash": 13051168.917199994,
+            "holdings_val": 37422337.0
+        },
+        {
+            "date": "20260515",
+            "equity": 50574371.717199996,
+            "cash": 13051168.917199994,
+            "holdings_val": 37523202.800000004
+        },
+        {
+            "date": "20260516",
+            "equity": 50478872.41719999,
+            "cash": 13051168.917199994,
+            "holdings_val": 37427703.5
+        },
+        {
+            "date": "20260517",
+            "equity": 50634681.51719999,
+            "cash": 13051168.917199994,
+            "holdings_val": 37583512.6
+        },
+        {
+            "date": "20260518",
+            "equity": 50621216.51719999,
+            "cash": 13051168.917199994,
+            "holdings_val": 37570047.6
+        },
+        {
+            "date": "20260519",
+            "equity": 50621349.81719999,
+            "cash": 13051168.917199994,
+            "holdings_val": 37570180.9
+        },
+        {
+            "date": "20260520",
+            "equity": 50575857.15224999,
+            "cash": 13053161.852249991,
+            "holdings_val": 37522695.3
+        },
+        {
+            "date": "20260521",
+            "equity": 50567116.689399995,
+            "cash": 13441009.189399993,
+            "holdings_val": 37126107.5
+        },
+        {
+            "date": "20260522",
+            "equity": 50483409.58014999,
+            "cash": 13229665.480149996,
+            "holdings_val": 37253744.099999994
+        },
+        {
+            "date": "20260523",
+            "equity": 50540254.39935,
+            "cash": 13189297.699349996,
+            "holdings_val": 37350956.7
+        },
+        {
+            "date": "20260524",
+            "equity": 50440206.29934999,
+            "cash": 13189297.699349996,
+            "holdings_val": 37250908.6
+        },
+        {
+            "date": "20260525",
+            "equity": 50502156.49935,
+            "cash": 13189297.699349996,
+            "holdings_val": 37312858.8
+        },
+        {
+            "date": "20260526",
+            "equity": 50520892.49935,
+            "cash": 13189297.699349996,
+            "holdings_val": 37331594.800000004
+        },
+        {
+            "date": "20260527",
+            "equity": 50486998.49935,
+            "cash": 13189297.699349996,
+            "holdings_val": 37297700.8
+        },
+        {
+            "date": "20260528",
+            "equity": 50562935.29934999,
+            "cash": 13189297.699349996,
+            "holdings_val": 37373637.6
+        },
+        {
+            "date": "20260529",
+            "equity": 50616590.69935,
+            "cash": 13189297.699349996,
+            "holdings_val": 37427293.0
+        },
+        {
+            "date": "20260530",
+            "equity": 50541003.364549994,
+            "cash": 13417468.564549997,
+            "holdings_val": 37123534.8
+        },
+        {
+            "date": "20260531",
+            "equity": 50431073.322299995,
+            "cash": 13144054.822299995,
+            "holdings_val": 37287018.5
+        },
+        {
+            "date": "20260601",
+            "equity": 50240664.25375,
+            "cash": 13135203.953749996,
+            "holdings_val": 37105460.300000004
+        },
+        {
+            "date": "20260602",
+            "equity": 50329926.95375,
+            "cash": 13135203.953749996,
+            "holdings_val": 37194723.0
+        },
+        {
+            "date": "20260603",
+            "equity": 50342275.85374999,
+            "cash": 13135203.953749996,
+            "holdings_val": 37207071.9
+        },
+        {
+            "date": "20260604",
+            "equity": 50320996.35374999,
+            "cash": 13135203.953749996,
+            "holdings_val": 37185792.4
+        },
+        {
+            "date": "20260605",
+            "equity": 50374706.55374999,
+            "cash": 13135203.953749996,
+            "holdings_val": 37239502.6
+        },
+        {
+            "date": "20260606",
+            "equity": 50294024.85374999,
+            "cash": 13135203.953749996,
+            "holdings_val": 37158820.9
+        },
+        {
+            "date": "20260607",
+            "equity": 50238902.45375,
+            "cash": 13135203.953749996,
+            "holdings_val": 37103698.5
+        },
+        {
+            "date": "20260608",
+            "equity": 50318860.85374999,
+            "cash": 13135203.953749996,
+            "holdings_val": 37183656.9
+        },
+        {
+            "date": "20260609",
+            "equity": 50245476.63284999,
+            "cash": 13160162.432849992,
+            "holdings_val": 37085314.2
+        },
+        {
+            "date": "20260610",
+            "equity": 50057265.1064,
+            "cash": 12873767.006399993,
+            "holdings_val": 37183498.1
+        },
+        {
+            "date": "20260611",
+            "equity": 50160436.08344999,
+            "cash": 12938213.583449993,
+            "holdings_val": 37222222.5
+        },
+        {
+            "date": "20260612",
+            "equity": 50162246.18345,
+            "cash": 12938213.583449993,
+            "holdings_val": 37224032.6
+        },
+        {
+            "date": "20260613",
+            "equity": 50245209.18345,
+            "cash": 12938213.583449993,
+            "holdings_val": 37306995.6
+        },
+        {
+            "date": "20260614",
+            "equity": 50162100.28344999,
+            "cash": 12938213.583449993,
+            "holdings_val": 37223886.7
+        },
+        {
+            "date": "20260615",
+            "equity": 50143166.38344999,
+            "cash": 12938213.583449993,
+            "holdings_val": 37204952.8
+        },
+        {
+            "date": "20260616",
+            "equity": 50104903.38344999,
+            "cash": 12938213.583449993,
+            "holdings_val": 37166689.8
+        },
+        {
+            "date": "20260617",
+            "equity": 50197221.88344999,
+            "cash": 12938213.583449993,
+            "holdings_val": 37259008.3
+        },
+        {
+            "date": "20260618",
+            "equity": 50181497.88345,
+            "cash": 12938213.583449993,
+            "holdings_val": 37243284.300000004
+        },
+        {
+            "date": "20260619",
+            "equity": 50223671.19704999,
+            "cash": 13047624.997049991,
+            "holdings_val": 37176046.2
+        },
+        {
+            "date": "20260620",
+            "equity": 50240144.76349999,
+            "cash": 12800873.263499986,
+            "holdings_val": 37439271.5
+        },
+        {
+            "date": "20260621",
+            "equity": 50213254.89624999,
+            "cash": 12982923.896249985,
+            "holdings_val": 37230331.0
+        },
+        {
+            "date": "20260622",
+            "equity": 50201270.29624999,
+            "cash": 12982923.896249985,
+            "holdings_val": 37218346.400000006
+        },
+        {
+            "date": "20260623",
+            "equity": 50246193.79624999,
+            "cash": 12982923.896249985,
+            "holdings_val": 37263269.900000006
+        },
+        {
+            "date": "20260624",
+            "equity": 50201322.196249984,
+            "cash": 12982923.896249985,
+            "holdings_val": 37218398.3
+        },
+        {
+            "date": "20260625",
+            "equity": 50168354.39624999,
+            "cash": 12982923.896249985,
+            "holdings_val": 37185430.5
+        },
+        {
+            "date": "20260626",
+            "equity": 50111386.59624999,
+            "cash": 12982923.896249985,
+            "holdings_val": 37128462.7
+        },
+        {
+            "date": "20260627",
+            "equity": 49991585.796249986,
+            "cash": 12982923.896249985,
+            "holdings_val": 37008661.9
+        },
+        {
+            "date": "20260628",
+            "equity": 49927508.53684999,
+            "cash": 12868026.536849987,
+            "holdings_val": 37059482.0
+        }
+    ]
+}
