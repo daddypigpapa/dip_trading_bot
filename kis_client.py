@@ -207,6 +207,46 @@ class KISClient:
             "options": mock_chain
         }
 
+    def fetch_short_selling_data(self, symbol, count=10):
+        """Fetches short selling daily statistics. Falls back to mock if fails."""
+        token = self.get_access_token()
+        
+        if token:
+            try:
+                url = f"{self.base_url}/uapi/domestic-stock/v1/quotations/inquire-short-daily"
+                headers = {
+                    "Content-Type": "application/json",
+                    "authorization": f"Bearer {token}",
+                    "appkey": self.appkey,
+                    "appsecret": self.appsecret,
+                    "tr_id": "FHKST03011200",
+                    "custtype": "P"
+                }
+                params = {
+                    "FID_COND_MRKT_DIV_CODE": "J",
+                    "FID_INPUT_ISCD": symbol,
+                }
+                
+                res = requests.get(url, headers=headers, params=params, timeout=5)
+                if res.status_code == 200:
+                    data = res.json()
+                    output = data.get("output", [])
+                    if isinstance(output, list) and len(output) > 0:
+                        short_data = []
+                        for day in reversed(output[:count]):
+                            short_data.append({
+                                "date": day.get("stck_bsop_date"),
+                                "short_volume": int(day.get("shrt_msell_vol", 0)),
+                                "short_ratio": float(day.get("shrt_msell_rto", 0)),
+                                "short_balance_shares": int(day.get("ss_vol", 0)) if day.get("ss_vol") else 0
+                            })
+                        return short_data
+                logger.warning(f"Failed to fetch short selling data from KIS for {symbol}. Falling back to mock.")
+            except Exception as e:
+                logger.error(f"Error fetching short selling data for {symbol}: {e}")
+                
+        return self._generate_mock_short_selling_data(symbol, count)
+
     def execute_order(self, symbol, order_type, price, quantity):
         """Executes a trade order (Buy or Sell). In SIMULATION_MODE, mock executes."""
         # Always check credentials for placing live orders
@@ -422,3 +462,45 @@ class KISClient:
             
         options.sort(key=lambda x: x["strike_price"])
         return options
+
+    def _generate_mock_short_selling_data(self, symbol, count):
+        """Generates realistic mock daily short selling data including balance."""
+        base_price = self._get_mock_base_price(symbol)
+        seed = int(symbol) if symbol.isdigit() else 100000
+        
+        short_data = []
+        current_time = time.time()
+        
+        # Deterministically high or low short interest based on symbol seed
+        # E.g., if seed % 5 == 0, it has very high accumulated short balance (simulating short squeeze target)
+        is_high_si = (seed % 5 == 0)
+        base_balance_ratio = 0.045 if is_high_si else 0.012 # 4.5% vs 1.2% of market cap
+        
+        for i in range(count):
+            day_offset = count - i
+            st_date = time.strftime("%Y%m%d", time.localtime(current_time - day_offset * 24 * 3600))
+            
+            # Daily short ratio: normally 2% to 8%, but some days spikes up to 18%
+            # If high SI, we have occasional panic daily short spikes
+            is_spike_day = (i == count - 2) and not is_high_si
+            if is_spike_day:
+                short_ratio = 18.5
+            else:
+                short_ratio = round(2.0 + (hash(str(i) + symbol) % 80) / 10.0, 2)
+                
+            # Short volume based on typical daily volume
+            total_vol = 800000
+            short_vol = int(total_vol * (short_ratio / 100.0))
+            
+            # Short balance shares (mocked out of 100M outstanding shares)
+            outstanding_shares = 100000000
+            short_balance = int(outstanding_shares * base_balance_ratio * (1.0 + 0.05 * (random.random() - 0.5)))
+            
+            short_data.append({
+                "date": st_date,
+                "short_volume": short_vol,
+                "short_ratio": short_ratio,
+                "short_balance_shares": short_balance
+            })
+            
+        return short_data

@@ -148,16 +148,16 @@ class Trader:
             logger.info(f"Active holdings ({active_holdings_count}) reached MAX_HOLDINGS ({MAX_HOLDINGS}). Skipping buy scan.")
             return
 
-        # Calculate allocation size per trade (e.g. 15% of initial cash = 7,500,000 KRW per trade)
-        trade_allocation = 7500000.0
+        # Calculate base allocation size per trade (7,500,000 KRW, or 12,000,000 KRW for STRONG_BUY)
+        base_allocation = 7500000.0
         
-        logger.info("Scanning for buy signals...")
+        logger.info("Scanning for buy signals with short-selling filter...")
         for symbol, name in KOSPI_50_TICKERS.items():
             if symbol in holdings:
                 continue # Already holding this stock
                 
-            if cash < trade_allocation:
-                logger.warning(f"Insufficient cash ({cash:.1f} KRW) to allocate {trade_allocation:.1f} KRW. Stopping buy scan.")
+            if cash < base_allocation:
+                logger.warning(f"Insufficient cash ({cash:.1f} KRW) to allocate minimum {base_allocation:.1f} KRW. Stopping buy scan.")
                 break
                 
             logger.info(f"Scanning {name} ({symbol})...")
@@ -166,15 +166,24 @@ class Trader:
             daily_prices = self.client.fetch_daily_prices(symbol, 130) # 130 to cover 120-day MA
             intraday_bars = self.client.fetch_intraday_prices(symbol, '15', 40)
             option_chain = self.client.fetch_option_chain(symbol)
+            short_selling_data = self.client.fetch_short_selling_data(symbol, 10)
             
-            if not daily_prices or not intraday_bars or not option_chain:
+            if not daily_prices or not intraday_bars or not option_chain or not short_selling_data:
                 logger.warning(f"Missing data for {symbol}. Skipping.")
                 continue
                 
-            should_buy, details = evaluate_strategy_c_buy(symbol, daily_prices, intraday_bars, option_chain)
+            should_buy, details = evaluate_strategy_c_buy(symbol, daily_prices, intraday_bars, option_chain, short_selling_data)
             
             if should_buy:
                 current_price = daily_prices[-1]["close"]
+                
+                # Dynamic allocation based on signal strength
+                strength = details.get("signal_strength", "NORMAL_BUY")
+                trade_allocation = 12000000.0 if strength == "STRONG_BUY" else 7500000.0
+                
+                # If cash is insufficient for STRONG_BUY, scale down to remaining cash or standard base
+                if cash < trade_allocation:
+                    trade_allocation = cash
                 
                 # Calculate quantity to purchase
                 qty = int(trade_allocation // current_price)
@@ -200,7 +209,8 @@ class Trader:
                             "entry_price": current_price,
                             "entry_date": time.strftime("%Y%m%d"),
                             "put_wall": details["put_wall"],
-                            "call_wall": details["call_wall"]
+                            "call_wall": details["call_wall"],
+                            "signal_strength": strength
                         }
                         
                         # Log the trade
@@ -214,10 +224,13 @@ class Trader:
                             "amount": round(actual_cost, 1),
                             "trading_cost": round(trading_fee, 1),
                             "reason": details["reason"],
+                            "signal_strength": strength,
                             "ma_120": details["ma_120"],
                             "fib_level": details["fib_level"],
                             "put_wall": details["put_wall"],
-                            "call_wall": details["call_wall"]
+                            "call_wall": details["call_wall"],
+                            "avg_short_ratio_3d": details["avg_short_ratio_3d"],
+                            "short_balance_pct": details["short_balance_pct"]
                         }
                         self.append_trade_log(log_entry)
                         

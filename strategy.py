@@ -135,16 +135,26 @@ def extract_option_walls(option_chain):
             
     return call_wall, put_wall
 
-def evaluate_strategy_c_buy(symbol, daily_prices, intraday_bars, option_chain):
+def evaluate_strategy_c_buy(symbol, daily_prices, intraday_bars, option_chain, short_selling_data):
     """
     Evaluates Strategy C BUY signals:
     1. Daily 120 MA trend is UP and price is above MA.
     2. Daily price pulled back to Fibonacci retracement levels (38.2%, 50%, 61.8%).
     3. Intraday 15-min chart shows a Double Bottom pattern.
     4. Options Put Wall is nearby below the price, providing a margin of safety (floor).
+    5. Short Selling Filter A: 3-day average daily short ratio <= 15% (no heavy active shorting).
+    6. Short Selling Filter B: Short balance > 3.0% of market cap (triggers STRONG_BUY due to short squeeze potential).
     """
     current_price = daily_prices[-1]["close"]
     
+    # 5. Short Selling Filter A: Check active short pressure
+    if short_selling_data and len(short_selling_data) >= 3:
+        avg_short_ratio_3d = sum(day["short_ratio"] for day in short_selling_data[-3:]) / 3.0
+        if avg_short_ratio_3d > 15.0:
+            return False, f"HIGH_ACTIVE_SHORT_PRESSURE (Avg: {avg_short_ratio_3d:.1f}%)"
+    else:
+        avg_short_ratio_3d = 0.0
+
     # 1. Check MA alignment
     ma_aligned, ma_val, ma_slope = check_ma_alignment(daily_prices, 120)
     if not ma_aligned:
@@ -186,9 +196,23 @@ def evaluate_strategy_c_buy(symbol, daily_prices, intraday_bars, option_chain):
     if not double_bottom_detected:
         return False, "NO_DOUBLE_BOTTOM"
         
+    # 6. Short Selling Filter B: Check high short balance ratio (Short Squeeze Candidate)
+    is_high_short_interest = False
+    short_balance_pct = 0.0
+    if short_selling_data:
+        # Assuming 100M outstanding shares (outstanding_shares = 100000000)
+        last_day_balance = short_selling_data[-1]["short_balance_shares"]
+        short_balance_pct = (last_day_balance / 100000000) * 100
+        if short_balance_pct > 3.0:
+            is_high_short_interest = True
+            
+    signal_strength = "STRONG_BUY" if is_high_short_interest else "NORMAL_BUY"
+    reason = "Strategy C + Short Squeeze criteria met" if is_high_short_interest else "Strategy C buy criteria met"
+    
     # All conditions met!
     return True, {
-        "reason": "Strategy C buy criteria met",
+        "reason": reason,
+        "signal_strength": signal_strength,
         "spot_price": current_price,
         "ma_120": round(ma_val, 1),
         "fib_level": matched_level,
@@ -196,7 +220,9 @@ def evaluate_strategy_c_buy(symbol, daily_prices, intraday_bars, option_chain):
         "put_wall": put_wall,
         "call_wall": call_wall,
         "double_bottom_low": bottom_val,
-        "neckline": neckline_val
+        "neckline": neckline_val,
+        "avg_short_ratio_3d": round(avg_short_ratio_3d, 2),
+        "short_balance_pct": round(short_balance_pct, 2)
     }
 
 def evaluate_strategy_c_sell(symbol, current_price, entry_price, option_chain):

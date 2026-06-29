@@ -54,7 +54,10 @@ class Backtester:
             option_chain = self.client.fetch_option_chain(symbol)
             call_wall, put_wall = extract_option_walls(option_chain)
             
-            if not daily_prices or not put_wall or not call_wall:
+            # Fetch daily short selling data
+            short_selling_data = self.client.fetch_short_selling_data(symbol, required_days)
+            
+            if not daily_prices or not put_wall or not call_wall or not short_selling_data:
                 logger.warning(f"Skipping {symbol} due to insufficient data.")
                 continue
                 
@@ -62,7 +65,8 @@ class Backtester:
                 "name": name,
                 "daily_prices": daily_prices,
                 "put_wall": put_wall,
-                "call_wall": call_wall
+                "call_wall": call_wall,
+                "short_selling_data": short_selling_data
             }
             
         if not historical_database:
@@ -142,20 +146,29 @@ class Backtester:
             # B. Process entries (BUY signals)
             # Max 5 positions
             MAX_HOLDINGS = 5
-            trade_allocation = 7500000.0 # 7.5M KRW per trade
+            base_allocation = 7500000.0 # Base allocation
             
-            if len(self.holdings) < MAX_HOLDINGS and self.cash >= trade_allocation:
+            if len(self.holdings) < MAX_HOLDINGS and self.cash >= base_allocation:
                 for symbol, stock_data in historical_database.items():
                     if symbol in self.holdings:
                         continue
                         
-                    if self.cash < trade_allocation:
+                    if self.cash < base_allocation:
                         break
                         
-                    # Slice daily prices up to current day 'i'
+                    # Slice daily prices and short selling data up to current day 'i'
                     prices_slice = stock_data["daily_prices"][:i+1]
+                    short_slice = stock_data["short_selling_data"][:i+1]
                     current_price = prices_slice[-1]["close"]
                     
+                    # 5. Short Selling Filter A: Active short pressure check
+                    if short_slice and len(short_slice) >= 3:
+                        avg_short_ratio_3d = sum(day["short_ratio"] for day in short_slice[-3:]) / 3.0
+                        if avg_short_ratio_3d > 15.0:
+                            continue
+                    else:
+                        avg_short_ratio_3d = 0.0
+                        
                     # 1. Check MA alignment (120 MA trend is UP and price is above MA)
                     ma_aligned, ma_val, ma_slope = check_ma_alignment(prices_slice, 120)
                     if not ma_aligned:
@@ -189,15 +202,27 @@ class Backtester:
                         continue
                         
                     # 4. Intraday Double Bottom Simulation (Approximated for historical days)
-                    # Since historical intraday bars are not available in UAPI,
-                    # we simulate that a double bottom was successfully formed and triggered
-                    # if the daily candle low touched near the Fib level and closed in the upper half.
                     day_candle = prices_slice[-1]
                     bounced_from_low = (day_close := day_candle["close"]) > (day_low := day_candle["low"])
                     upper_half_close = (day_close - day_low) >= (day_candle["high"] - day_low) * 0.4
                     
                     if not bounced_from_low or not upper_half_close:
                         continue
+                        
+                    # 6. Short Selling Filter B: Short squeeze potential check
+                    is_high_short_interest = False
+                    short_balance_pct = 0.0
+                    if short_slice:
+                        last_day_balance = short_slice[-1]["short_balance_shares"]
+                        short_balance_pct = (last_day_balance / 100000000) * 100
+                        if short_balance_pct > 3.0:
+                            is_high_short_interest = True
+                            
+                    strength = "STRONG_BUY" if is_high_short_interest else "NORMAL_BUY"
+                    trade_allocation = 12000000.0 if is_high_short_interest else 7500000.0
+                    
+                    if self.cash < trade_allocation:
+                        trade_allocation = self.cash
                         
                     # Buy execution
                     qty = int(trade_allocation // current_price)
@@ -215,7 +240,8 @@ class Backtester:
                             "entry_price": current_price,
                             "entry_day_idx": i,
                             "put_wall": put_wall,
-                            "call_wall": call_wall
+                            "call_wall": call_wall,
+                            "signal_strength": strength
                         }
                         
                         self.trades.append({
@@ -226,11 +252,14 @@ class Backtester:
                             "price": current_price,
                             "quantity": qty,
                             "amount": round(actual_cost, 1),
-                            "reason": f"Strategy C buy triggered at {matched_level}",
+                            "reason": f"Strategy C + Squeeze buy triggered at {matched_level}" if is_high_short_interest else f"Strategy C buy triggered at {matched_level}",
+                            "signal_strength": strength,
                             "ma_120": round(ma_val, 1),
                             "fib_level": matched_level,
                             "put_wall": put_wall,
-                            "call_wall": call_wall
+                            "call_wall": call_wall,
+                            "avg_short_ratio_3d": round(avg_short_ratio_3d, 2),
+                            "short_balance_pct": round(short_balance_pct, 2)
                         })
                         
                         if len(self.holdings) >= MAX_HOLDINGS:
